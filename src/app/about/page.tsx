@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { GraduationCap } from "@phosphor-icons/react/dist/ssr";
-import { education, fmtRange, person, roles, skillGroups, socials, stats } from "@/content/site";
+import { education, fmtRange, isoDateTime, person, roles, skillGroups, socials, stats } from "@/content/site";
 import { JsonLd, breadcrumbNode, pageMetadata, personNode, webPageNode } from "@/lib/seo";
 import { StackIcon } from "@/components/StackIcon";
 import { Container, PageHeader, SectionTitle } from "@/components/ui";
@@ -31,7 +31,7 @@ export default function About() {
             type: "ProfilePage",
             crumbs,
             image: person.portrait,
-            extra: { mainEntity: { "@id": personNode["@id"] }, dateCreated: "2026-09-30" },
+            extra: { mainEntity: { "@id": personNode["@id"] }, dateCreated: isoDateTime("2026-09-30") },
           }),
           breadcrumbNode(path, crumbs),
         ]}

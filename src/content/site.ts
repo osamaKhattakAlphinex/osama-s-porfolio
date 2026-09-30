@@ -6,13 +6,30 @@
  * The live domain. Canonical URLs, the sitemap, Open Graph tags and JSON-LD all resolve against it,
  * so set NEXT_PUBLIC_SITE_URL in production. On Vercel the production URL is picked up automatically.
  */
-export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")
-).replace(/\/$/, "");
+export const siteUrl =
+  toOrigin(process.env.NEXT_PUBLIC_SITE_URL) ??
+  toOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+  "http://localhost:3000";
+
+/** Accepts "https://example.com", "example.com" or "example.com/"; returns null for blank or unparseable values. */
+function toOrigin(value: string | undefined): string | null {
+  const raw = value?.trim();
+  if (!raw) return null;
+  try {
+    const parsed = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+    // A bare word like "loca" parses as a hostname; require a dot (or localhost) so typos fall through.
+    if (!parsed.hostname.includes(".") && parsed.hostname !== "localhost") return null;
+    return parsed.origin;
+  } catch {
+    return null;
+  }
+}
 
 /** Bump when content changes; feeds sitemap lastModified and JSON-LD dateModified. */
 export const contentUpdated = "2026-09-30";
+
+/** Google wants full ISO 8601 date-times with a timezone in structured data (Pakistan, UTC+5). */
+export const isoDateTime = (date: string) => `${date}T00:00:00+05:00`;
 
 export const person = {
   name: "Osama Khattak",
