@@ -39,7 +39,7 @@ export const person = {
   country: "Pakistan",
   countryCode: "PK",
   email: "osamakhattak162@gmail.com",
-  portrait: "/osama.jpg",
+  portrait: "/osama.png",
   employer: "Alphinex Solutions",
   currentTitle: "Full Stack Next.js Developer",
   since: 2021,
