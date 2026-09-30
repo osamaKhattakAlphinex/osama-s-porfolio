@@ -40,10 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# impeccable review captures
-/.impeccable/review/
-
-# /brag-slim: keep the video sources, skip regenerated stills and audio, and never commit raw camera takes
-/brag-output*/work/stills/
-/brag-output*/work/*.wav
-/brag-output*/**/*.webm
+# local tooling output and agent skills (not part of the site)
+/.impeccable/
+/brag-output*/
+/.claude/
+/skills-lock.json
