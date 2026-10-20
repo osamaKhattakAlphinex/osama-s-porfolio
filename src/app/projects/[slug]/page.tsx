@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
@@ -6,6 +7,8 @@ import { JsonLd, breadcrumbNode, pageMetadata, projectNode, webPageNode } from "
 import { Breadcrumbs, Container, SectionTitle } from "@/components/ui";
 import { ToolList } from "@/components/StackIcon";
 import { CtaBand, ProjectCard, ProjectShot, Tags } from "@/components/sections";
+import { PostCard } from "@/components/blog-ui";
+import { postsForProject } from "@/content/blog";
 
 export const dynamicParams = false;
 
@@ -37,6 +40,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   const related = p.services.map(serviceBySlug).filter((s) => s !== undefined);
   const i = projects.indexOf(p);
   const more = [projects[(i + 1) % projects.length], projects[(i + 2) % projects.length]];
+  const articles = postsForProject(p.slug);
+  const wide = p.gallery.filter((g) => g.width > g.height);
+  const tall = p.gallery.filter((g) => g.height > g.width);
 
   return (
     <>
@@ -61,6 +67,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 </p>
               </div>
               <div className="rise flex items-end md:col-span-4 md:justify-end" style={{ "--i": 2 } as React.CSSProperties}>
+                {p.offline ? (
+                  <p className="rounded-xl border border-rule px-4 py-2.5 text-sm text-ink-2">The live site is currently offline.</p>
+                ) : (
                 <a
                   href={p.href}
                   target="_blank"
@@ -70,6 +79,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                   Visit {host(p.href)}
                   <ArrowUpRight size={17} weight="bold" aria-hidden className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </a>
+                )}
               </div>
             </div>
           </Container>
@@ -87,6 +97,20 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-ink-2">{p.about}</p>
             </section>
+            {p.features.length > 0 && (
+              <section aria-labelledby="features-title" className="mt-14">
+                <h2 id="features-title" className="heading text-[clamp(1.75rem,3vw,2.25rem)]">
+                  What the site does
+                </h2>
+                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {p.features.map((f) => (
+                    <li key={f} className="rounded-xl border border-rule bg-sheet p-4 text-[0.975rem] text-ink-2">
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
             <section aria-labelledby="work-title" className="mt-14">
               <h2 id="work-title" className="heading text-[clamp(1.75rem,3vw,2.25rem)]">
                 What I did
@@ -107,9 +131,13 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               <Row term="Type">{p.kind}</Row>
               <Row term="Work">{p.categories.join(", ")}</Row>
               <Row term="Live site">
-                <a href={p.href} target="_blank" rel="noopener" className="font-medium underline decoration-rule-strong underline-offset-4 hover:decoration-ink">
-                  {host(p.href)}
-                </a>
+                {p.offline ? (
+                  <span className="text-ink-2">Offline</span>
+                ) : (
+                  <a href={p.href} target="_blank" rel="noopener" className="font-medium underline decoration-rule-strong underline-offset-4 hover:decoration-ink">
+                    {host(p.href)}
+                  </a>
+                )}
               </Row>
               {p.stack.length > 0 && (
                 <div className="p-5">
@@ -137,6 +165,44 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           </aside>
         </Container>
       </article>
+
+      {p.gallery.length > 0 && (
+        <section aria-labelledby="gallery-title" className="border-t border-rule py-20 md:py-28">
+          <Container>
+            <SectionTitle id="gallery-title">{p.name} in screenshots</SectionTitle>
+            <p className="reveal mt-4 max-w-[60ch] text-ink-2">Captured from the live site in October 2026, on desktop and on a phone.</p>
+            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-12">
+              <div className="grid gap-8 md:col-span-8">
+                {wide.map((g) => (
+                  <figure key={g.src} className="reveal">
+                    <Image src={g.src} alt={g.alt} width={g.width} height={g.height} sizes="(min-width: 768px) 780px, 100vw" className="w-full rounded-xl border border-rule" />
+                    <figcaption className="mt-3 text-sm text-ink-2">{g.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+              {tall.map((g) => (
+                <figure key={g.src} className="reveal md:col-span-4">
+                  <Image src={g.src} alt={g.alt} width={g.width} height={g.height} sizes="(min-width: 768px) 360px, 80vw" className="mx-auto w-full max-w-[22rem] rounded-[1.75rem] border-[6px] border-sheet-2" />
+                  <figcaption className="mt-3 text-center text-sm text-ink-2">{g.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {articles.length > 0 && (
+        <section aria-labelledby="article-title" className="border-t border-rule py-20 md:py-28">
+          <Container>
+            <SectionTitle id="article-title">Read the full story</SectionTitle>
+            <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2">
+              {articles.map((a, n) => (
+                <PostCard key={a.slug} post={a} large={n === 0 && articles.length === 1} />
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       <section aria-labelledby="more-title" className="border-t border-rule bg-sheet py-20 md:py-28">
         <Container>

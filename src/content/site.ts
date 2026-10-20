@@ -171,6 +171,8 @@ export const education = {
 
 export type Category = "Full stack" | "Frontend" | "WordPress" | "SEO";
 
+export type Shot = { src: string; alt: string; caption: string; width: number; height: number };
+
 export type Project = {
   slug: string;
   name: string;
@@ -181,6 +183,8 @@ export type Project = {
   summary: string;
   /** What the product is, for the case-study page. */
   about: string;
+  /** What the live site offers, taken from the site itself (checked October 2026). */
+  features: string[];
   /** What Osama did on it. */
   work: string[];
   /** Service pages this project is proof for. */
@@ -188,26 +192,141 @@ export type Project = {
   /** Only tools confirmed for this project. Leave empty rather than guess. */
   stack: Tool[];
   kind: string;
+  /** Extra screenshots for the case-study gallery. */
+  gallery: Shot[];
+  /** The live site is down; show the project but don't send visitors to it. */
+  offline?: boolean;
 };
+
+const shots = (slug: string, name: string, what: { home: string; section: string; mobile: string }): Shot[] => [
+  { src: `/work/${slug}/home.webp`, alt: `${name} home page on desktop`, caption: what.home, width: 1440, height: 900 },
+  { src: `/work/${slug}/section.webp`, alt: `${name} page section on desktop`, caption: what.section, width: 1440, height: 900 },
+  { src: `/work/${slug}/mobile.webp`, alt: `${name} home page on a phone`, caption: what.mobile, width: 780, height: 1688 },
+];
 
 export const projects: Project[] = [
   {
     slug: "staffvertex",
     name: "Staffvertex",
-    href: "https://staffvertex.com",
-    image: "/work/sv.webp",
+    href: "https://www.staffvertex.com",
+    image: "/work/staffvertex/home.webp",
     categories: ["Full stack"],
     kind: "Time-tracking SaaS",
     summary: "A time-tracking product in the vein of Hubstaff. I built and maintain all of it: backend APIs, interface and fixes.",
     about:
-      "Staffvertex is a time-tracking and team productivity product for businesses that pay by the hour, in the same category as Hubstaff. Teams track work hours, manage tasks and see where the time went.",
+      "Staffvertex is time tracking and project management for teams that bill or pay by the hour. People start a timer on the desktop app or in the browser, and the tracked hours turn into timesheets, reports and invoices. It is a product of Alphinex Solutions, where I work.",
+    features: [
+      "Desktop timer for Windows and macOS that keeps counting when the Wi-Fi drops and syncs when it comes back.",
+      "Idle detection that lets the team decide whether idle time is kept, discarded or asked about.",
+      "Optional screenshots, off by default, with blur controls for privacy.",
+      "Projects, boards, task dependencies and deadlines alongside the timer.",
+      "Timesheets with overtime, exportable reports, invoices and pay rates.",
+      "A free plan for one user, then per-seat Pro and Business plans.",
+    ],
     work: [
       "Built the backend APIs that record time, tasks and team data.",
       "Built the web interface teams use every day.",
       "Own maintenance end to end: bug fixes, improvements and releases.",
     ],
     services: ["mern-stack-development", "nextjs-development"],
+    stack: ["Next.js"],
+    gallery: shots("staffvertex", "Staffvertex", {
+      home: "The home page: start the timer in one click, free to start.",
+      section: "How a tracked day works, from the first click to the invoice.",
+      mobile: "The same page on a phone.",
+    }),
+  },
+  {
+    slug: "timbera",
+    name: "Timbera.pk",
+    href: "https://timbera.pk",
+    image: "/work/timbera.webp",
+    categories: ["WordPress", "Frontend"],
+    kind: "Furniture ecommerce store",
+    summary: "Ecommerce furniture store on WordPress with a custom, responsive storefront.",
+    about:
+      "Timbera.pk is an online furniture store based in Islamabad. It sells sofas, beds, dining tables, chairs, mirrors, shelving and consoles, priced in rupees, to customers across Pakistan.",
+    features: [
+      "Category pages for sofas, tables and consoles, mirrors, shelves, beds, chairs and dining tables.",
+      "Shop filters by price, colour and fabric, with sorting.",
+      "Wishlist and cart on a WooCommerce checkout.",
+      "Large product photography that holds up on a phone.",
+      "Delivery and money-back promises shown on every page.",
+    ],
+    work: ["Built the WordPress ecommerce store and its product catalogue.", "Designed and built a custom, responsive storefront."],
+    services: ["wordpress-development"],
+    stack: ["WordPress", "WooCommerce"],
+    gallery: shots("timbera", "Timbera.pk", {
+      home: "The storefront hero on desktop.",
+      section: "Category rows: beds, dining tables and more, each with price in rupees.",
+      mobile: "The storefront on a phone, where most furniture browsing starts.",
+    }),
+  },
+  {
+    slug: "carports-hawaii",
+    name: "Carports Hawaii",
+    href: "https://carportshawaii.com",
+    image: "/work/carport.webp",
+    categories: ["WordPress"],
+    kind: "Contractor website",
+    summary: "Company site for aluminium carports, patio and pool covers, with an instant-quote form.",
+    about:
+      "Carports Hawaii designs and installs aluminium carports, patio covers, pergolas and awnings across the Hawaiian islands. The website exists to turn a homeowner's first visit into a quote request.",
+    features: [
+      "An instant-quote form: enter the width and length, see the square footage and a price range.",
+      "Product pages for carports, patio covers, pergolas and awnings.",
+      "A photo gallery of finished installations.",
+      "Service-area pages for each island.",
+      "Reviews and licensing shown where visitors decide.",
+    ],
+    work: ["Built the company site on WordPress.", "Added an instant-quote form so visitors can request a price in one step."],
+    services: ["wordpress-development"],
+    stack: ["WordPress"],
+    gallery: shots("carports-hawaii", "Carports Hawaii", {
+      home: "The home page today: the offer and the call to action above the fold.",
+      section: "Product range and the structure guide further down the page.",
+      mobile: "The home page on a phone.",
+    }),
+  },
+  {
+    slug: "executivesdiary",
+    name: "ExecutivesDiary",
+    href: "https://executivesdiary.com",
+    image: "/work/e-diary.webp",
+    categories: ["Frontend"],
+    kind: "Leadership publication",
+    summary: "Leadership platform publishing articles and interviews from executives, on a custom front end.",
+    about:
+      "ExecutivesDiary publishes the career stories of senior leaders: biographies and thought-leadership pieces written from interviews. Readers come for long-form content, so the front end is built for reading.",
+    features: ["Executive biographies and thought-leadership sections.", "A featured diary of the day on the home page.", "Search across stories."],
+    work: ["Built the custom front end for articles and interviews.", "Laid out long-form content for comfortable reading on every screen size."],
+    services: ["react-development"],
     stack: [],
+    gallery: [],
+  },
+  {
+    slug: "teey",
+    name: "Teey.pk",
+    href: "https://teey.pk",
+    image: "/work/teey.webp",
+    categories: ["Frontend"],
+    kind: "Printing and branding studio",
+    summary: "Printing and branding studio site, laid out around service bookings.",
+    about:
+      "Teey.pk is a custom print and promotional products studio in Islamabad. It handles design, offset and digital printing, event branding, promotional products, media production and digital marketing.",
+    features: [
+      "Service sections for design, printing, corporate events, promotional products, media and marketing.",
+      "A portfolio of past work.",
+      "A single, clear call to action on every page: get in touch.",
+    ],
+    work: ["Built the front end around the studio's services.", "Structured each page to lead visitors toward booking a service."],
+    services: ["react-development"],
+    stack: ["Bootstrap"],
+    gallery: shots("teey", "Teey.pk", {
+      home: "The hero: Think. Order. Made.",
+      section: "Service cards and the studio's numbers.",
+      mobile: "The home page on a phone.",
+    }),
   },
   {
     slug: "consultantsperhour",
@@ -218,94 +337,61 @@ export const projects: Project[] = [
     kind: "Consulting marketplace",
     summary: "Gig marketplace for consultants, with a responsive interface for booking and consulting workflows.",
     about:
-      "ConsultantsPerHour is a marketplace where clients find consultants and book time with them by the hour. The interface has to carry browsing, booking and the consulting workflow on any screen.",
+      "ConsultantsPerHour was a US marketplace that billed itself as a town square for the gig economy. Consultants built a profile, set out their expertise and rates, and were invited to vetted gigs. Employers could pick a consultant directly, post a job, or book a call with a recruiter.",
+    features: [
+      "Consultant profiles with expertise and pricing.",
+      "Two paths for employers: choose a consultant directly or post a job.",
+      "A recruiter call booking flow for employers who want help choosing.",
+      "Industry browsing on the home page.",
+    ],
     work: [
       "Built the responsive interface for browsing consultants and booking sessions.",
       "Shaped the consulting workflow screens so each step is clear on mobile and desktop.",
     ],
     services: ["react-development", "ui-ux-design"],
     stack: [],
-  },
-  {
-    slug: "timbera",
-    name: "Timbera.pk",
-    href: "https://timbera.pk",
-    image: "/work/timbera.webp",
-    categories: ["WordPress", "Frontend"],
-    kind: "Furniture ecommerce store",
-    summary: "Ecommerce furniture store on WordPress with a custom, responsive storefront.",
-    about: "Timbera.pk is an online furniture store in Pakistan. It runs on WordPress with a storefront designed for browsing large product photos and buying on a phone.",
-    work: [
-      "Built the WordPress ecommerce store and its product catalogue.",
-      "Designed and built a custom, responsive storefront.",
-    ],
-    services: ["wordpress-development"],
-    stack: ["WordPress"],
-  },
-  {
-    slug: "executivesdiary",
-    name: "ExecutivesDiary",
-    href: "https://executivesdiary.com",
-    image: "/work/e-diary.webp",
-    categories: ["Frontend"],
-    kind: "Leadership publication",
-    summary: "Leadership platform publishing articles and interviews from executives, on a custom front end.",
-    about: "ExecutivesDiary publishes articles and interviews from executives and consultants. Readers come for long-form content, so the front end is built for reading.",
-    work: ["Built the custom front end for articles and interviews.", "Laid out long-form content for comfortable reading on every screen size."],
-    services: ["react-development"],
-    stack: [],
-  },
-  {
-    slug: "carports-hawaii",
-    name: "Carports Hawaii",
-    href: "https://carportshawaii.com",
-    image: "/work/carport.webp",
-    categories: ["WordPress"],
-    kind: "Company website",
-    summary: "Company site for aluminium carports, patio and pool covers, with an instant-quote form.",
-    about: "Carports Hawaii sells and installs aluminium carports, patio covers and pool covers. The site's job is to turn visitors into quote requests.",
-    work: ["Built the company site on WordPress.", "Added an instant-quote form so visitors can request a price in one step."],
-    services: ["wordpress-development"],
-    stack: ["WordPress"],
-  },
-  {
-    slug: "teey",
-    name: "Teey.pk",
-    href: "https://teey.pk",
-    image: "/work/teey.webp",
-    categories: ["Frontend"],
-    kind: "Printing and branding studio",
-    summary: "Printing and branding studio site, laid out around service bookings.",
-    about: "Teey.pk is a printing and branding studio. The site presents its services and is laid out to lead visitors to a booking.",
-    work: ["Built the front end around the studio's services.", "Structured each page to lead visitors toward booking a service."],
-    services: ["react-development"],
-    stack: [],
+    gallery: [],
+    offline: true,
   },
   {
     slug: "mindsieves",
     name: "Mindsieves",
-    href: "https://mindsieves.com",
+    href: "https://www.mindsieves.com",
     image: "/work/mindsieve.webp",
     categories: ["WordPress"],
     kind: "Blogging platform",
     summary: "Blogging platform with category-based publishing and built-in SEO.",
-    about: "Mindsieves is a blog that publishes across several categories. It needed an easy publishing flow for writers and solid search foundations.",
+    about: "Mindsieves publishes essays and videos on Islamic thought, culture and current affairs. It needed an easy publishing flow for its writers and solid search foundations.",
+    features: ["Category-based publishing.", "Featured posts on the home page.", "Search-ready posts from the moment they are published."],
     work: ["Built the WordPress blog with category-based publishing.", "Set up on-page SEO so every new post is search-ready when it is published."],
     services: ["wordpress-development", "seo-services"],
     stack: ["WordPress"],
+    gallery: [],
   },
   {
-    slug: "networkustaad",
-    name: "NetworkUstaad",
-    href: "https://networkustaad.com",
+    slug: "networkustad",
+    name: "NetworkUstad",
+    href: "https://networkustad.com",
     image: "/work/nw.webp",
     categories: ["SEO"],
-    kind: "Tech publication",
+    kind: "IT certification publication",
     summary: "On-page and off-page SEO that put this tech publication among Google's top results.",
-    about: "NetworkUstaad is a technology publication covering networking topics. The goal was organic search traffic.",
+    about:
+      "NetworkUstad publishes free study guides for IT certifications such as CCNA, Security+ and Network+, along with networking and cybersecurity articles. Almost all of its readers arrive from search, so rankings are the business.",
+    features: [
+      "Structured CCNA study guides split by exam domain.",
+      "Guides for Security+, Network+ and an IT certification roadmap.",
+      "Networking tools such as a subnet calculator.",
+      "Networking, cybersecurity, technology and news sections.",
+    ],
     work: ["On-page SEO across the publication's content.", "Off-page SEO and link building.", "Helped move the site into Google's top results for its topics."],
     services: ["seo-services"],
     stack: [],
+    gallery: shots("networkustad", "NetworkUstad", {
+      home: "The publication today. My work here was SEO, not the design.",
+      section: "Certification study guides, the content that has to rank.",
+      mobile: "The site on a phone, where Google ranks it from.",
+    }),
   },
   {
     slug: "editorialdiary",
@@ -313,12 +399,19 @@ export const projects: Project[] = [
     href: "https://editorialdiary.com",
     image: "/work/e-d-2.webp",
     categories: ["SEO"],
-    kind: "Blog",
+    kind: "Multi-topic blog",
     summary: "Keyword research and technical fixes that improved search performance for this blog.",
-    about: "EditorialDiary is a blog that relies on search for its readers.",
+    about:
+      "EditorialDiary is a multi-topic blog covering technology, business, travel, health, real estate and more. With that many topics, choosing which keywords to chase matters as much as the writing.",
+    features: ["Ten topic categories, from tech and business to travel and real estate.", "Featured and latest posts on the home page.", "Category navigation on every page."],
     work: ["Keyword research to find topics worth ranking for.", "Technical SEO fixes that improved the blog's search performance."],
     services: ["seo-services"],
     stack: [],
+    gallery: shots("editorialdiary", "EditorialDiary", {
+      home: "The home page with featured posts.",
+      section: "Latest posts by category.",
+      mobile: "The blog on a phone.",
+    }),
   },
 ];
 

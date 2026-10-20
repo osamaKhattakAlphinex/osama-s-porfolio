@@ -9,6 +9,7 @@ import { person } from "@/content/site";
 export const nav = [
   { href: "/projects", label: "Work" },
   { href: "/services", label: "Services" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
 ] as const;
 
@@ -83,8 +84,8 @@ export function Header() {
 
 export function Logo() {
   return (
-    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label={`${person.name}, home`}>
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-mono text-[0.8rem] font-bold text-on-accent transition-transform duration-300 ease-out-expo group-hover:-rotate-6">
+    <Link href="/" className="group inline-flex items-center gap-2.5">
+      <span aria-hidden className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-mono text-[0.8rem] font-bold text-on-accent transition-transform duration-300 ease-out-expo group-hover:-rotate-6">
         OK
       </span>
       <span className="text-[1rem] font-semibold tracking-[-0.02em]">{person.name}</span>

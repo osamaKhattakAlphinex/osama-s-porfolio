@@ -1,5 +1,6 @@
 import { faqs, person, projects, roles, services, socials } from "@/content/site";
 import { url } from "@/lib/seo";
+import { posts } from "@/content/blog";
 
 export const dynamic = "force-static";
 
@@ -16,6 +17,7 @@ export function GET() {
 - [About](${url("/about")}): background, skills, full experience and education
 - [Projects](${url("/projects")}): all client projects
 - [Services](${url("/services")}): everything offered, with process and FAQ
+- [Blog](${url("/blog")}): guides drawn from real client projects
 - [Contact](${url("/contact")}): hire ${person.name}
 
 ## Services
@@ -24,7 +26,11 @@ ${services.map((s) => `- [${s.heading}](${url(`/services/${s.slug}`)}): ${s.shor
 
 ## Projects
 
-${projects.map((p) => `- [${p.name}](${url(`/projects/${p.slug}`)}): ${p.summary} Live at ${p.href}`).join("\n")}
+${projects.map((p) => `- [${p.name}](${url(`/projects/${p.slug}`)}): ${p.summary}${p.offline ? "" : ` Live at ${p.href}`}`).join("\n")}
+
+## Articles
+
+${posts.map((p) => `- [${p.title}](${url(`/blog/${p.slug}`)}): ${p.description}`).join("\n")}
 
 ## Experience
 

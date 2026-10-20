@@ -35,6 +35,7 @@ export function Footer() {
         </FooterCol>
 
         <FooterCol title="Site" className="md:col-span-3">
+          <FooterLink href="/blog">Blog</FooterLink>
           <FooterLink href="/about">About</FooterLink>
           <FooterLink href="/contact">Contact</FooterLink>
           {socials.map((s) => (

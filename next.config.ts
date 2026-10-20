@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
     // AVIF first, WebP fallback: smaller screenshots, better LCP.
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    // The project was first published under a misspelled slug.
+    return [{ source: "/projects/networkustaad", destination: "/projects/networkustad", permanent: true }];
+  },
   async headers() {
     return [
       {

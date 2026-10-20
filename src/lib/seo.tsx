@@ -27,6 +27,8 @@ type PageMeta = {
   absoluteTitle?: boolean;
   type?: "website" | "profile" | "article";
   noindex?: boolean;
+  /** Article fields for Open Graph (blog posts). */
+  article?: { published: string; modified: string; section: string; tags: string[] };
 };
 
 /**
@@ -36,7 +38,7 @@ type PageMeta = {
 /** Keep descriptions inside the ~160 characters Google shows, cutting at a word boundary. */
 const clip = (text: string, max = 160) => (text.length <= max ? text : `${text.slice(0, text.lastIndexOf(" ", max - 1)).replace(/[,.;:]$/, "")}.`);
 
-export function pageMetadata({ title, description: rawDescription, path, keywords = [], absoluteTitle, type = "website", noindex }: PageMeta): Metadata {
+export function pageMetadata({ title, description: rawDescription, path, keywords = [], absoluteTitle, type = "website", noindex, article }: PageMeta): Metadata {
   const description = clip(rawDescription);
   const fullTitle = absoluteTitle ? title : `${title} | ${person.name}`;
   return {
@@ -52,6 +54,15 @@ export function pageMetadata({ title, description: rawDescription, path, keyword
       title: fullTitle,
       description,
       ...(type === "profile" ? { firstName: "Osama", lastName: "Khattak", username: "osamaKhattakAlphinex" } : {}),
+      ...(article
+        ? {
+            publishedTime: isoDateTime(article.published),
+            modifiedTime: isoDateTime(article.modified),
+            authors: [url("/about")],
+            section: article.section,
+            tags: article.tags,
+          }
+        : {}),
     },
     twitter: { card: "summary_large_image", title: fullTitle, description },
     ...(noindex ? { robots: { index: false, follow: true } } : {}),
@@ -215,10 +226,56 @@ export const projectNode = (p: Project): Node => ({
   abstract: p.about,
   genre: p.kind,
   url: url(`/projects/${p.slug}`),
-  sameAs: p.href,
-  image: url(p.image),
+  ...(p.offline ? {} : { sameAs: p.href }),
+  image: [p.image, ...p.gallery.map((g) => g.src)].map((i) => url(i)),
   creator: { "@id": ids.person },
   keywords: [...p.categories, ...p.stack].join(", "),
+});
+
+export const blogNode = (): Node => ({
+  "@type": "Blog",
+  "@id": `${siteUrl}/blog#blog`,
+  url: url("/blog"),
+  name: `${person.name} on web development`,
+  description: "Articles on MERN stack and Next.js development, ecommerce, lead generation and SEO, drawn from real client projects.",
+  inLanguage: "en",
+  author: { "@id": ids.person },
+  publisher: { "@id": ids.person },
+  isPartOf: { "@id": ids.website },
+});
+
+type PostLike = {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  published: string;
+  updated: string;
+  category: string;
+  keywords: string[];
+  project?: string;
+};
+
+export const blogPostingNode = (p: PostLike, words: number): Node => ({
+  "@type": "BlogPosting",
+  "@id": `${url(`/blog/${p.slug}`)}#article`,
+  headline: p.title,
+  description: p.description,
+  url: url(`/blog/${p.slug}`),
+  mainEntityOfPage: { "@id": `${url(`/blog/${p.slug}`)}#webpage` },
+  image: { "@type": "ImageObject", url: url(p.image), width: 1600, height: 900, caption: p.imageAlt },
+  datePublished: isoDateTime(p.published),
+  dateModified: isoDateTime(p.updated),
+  author: { "@id": ids.person },
+  publisher: { "@id": ids.person },
+  isPartOf: { "@id": `${siteUrl}/blog#blog` },
+  articleSection: p.category,
+  keywords: p.keywords.join(", "),
+  wordCount: words,
+  timeRequired: `PT${Math.max(1, Math.round(words / 230))}M`,
+  inLanguage: "en",
+  ...(p.project ? { about: { "@id": `${url(`/projects/${p.project}`)}#project` } } : {}),
 });
 
 /** One @graph per page: the site-wide entities plus the page's own nodes, cross-linked by @id. */

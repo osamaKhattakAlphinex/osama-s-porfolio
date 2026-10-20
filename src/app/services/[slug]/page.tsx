@@ -6,6 +6,8 @@ import { JsonLd, breadcrumbNode, faqNode, pageMetadata, serviceNode, webPageNode
 import { ButtonLink, Container, PageHeader, SectionTitle } from "@/components/ui";
 import { ToolList } from "@/components/StackIcon";
 import { CtaBand, Faq, Process, ProjectCard } from "@/components/sections";
+import { LatestPosts } from "@/components/blog-ui";
+import { postsForService } from "@/content/blog";
 
 export const dynamicParams = false;
 
@@ -102,6 +104,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       )}
 
       <Process />
+      <LatestPosts title="Related articles." items={postsForService(s.slug).slice(0, 3)} />
       <Faq items={s.faqs} title={`${s.name} questions.`} />
 
       <nav aria-labelledby="other-title" className="border-t border-rule py-20">

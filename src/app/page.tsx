@@ -4,6 +4,8 @@ import { JsonLd, faqNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { Spotlight } from "@/components/Spotlight";
 import { ButtonLink, Container, SectionTitle, TextLink } from "@/components/ui";
 import { CtaBand, Faq, ProofStrip, SelectedWork, ServicesBento, Timeline } from "@/components/sections";
+import { LatestPosts } from "@/components/blog-ui";
+import Link from "next/link";
 
 const title = `${person.name} | MERN Stack Developer in ${person.country}`;
 const description = `Hire ${person.name}, a MERN stack and Next.js developer in ${person.city}. Fast, search-ready web apps with MongoDB, Express, React and Node.js. 20+ projects shipped.`;
@@ -78,7 +80,11 @@ export default function Home() {
             What I can build for you.
           </SectionTitle>
           <p className="reveal mt-5 max-w-[56ch] text-lg text-ink-2">
-            Most projects need a few of these at once. Tell me the result you want and I&apos;ll pick the stack.
+            Most projects need a few of these at once. My core is{" "}
+            <Link href="/services/mern-stack-development" className="font-medium text-ink underline decoration-accent-text decoration-2 underline-offset-4">
+              MERN stack development
+            </Link>
+            , with Next.js when pages need to rank. Tell me the result you want and I&apos;ll pick the stack.
           </p>
           <div className="mt-14">
             <ServicesBento />
@@ -101,6 +107,8 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      <LatestPosts />
 
       <Faq items={faqs} />
 
