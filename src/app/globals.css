@@ -324,7 +324,7 @@ a {
   }
 }
 
-/* Headlines are the Largest Contentful Paint; fading them from opacity 0 delays LCP, so they only slide. */
+/* Headlines and hero ledes are the Largest Contentful Paint (the lede on phones); fading them from opacity 0 delays LCP, so they only slide. */
 @keyframes lift {
   from {
     translate: 0 12px;
@@ -387,7 +387,8 @@ a {
     animation: rise 0.8s var(--ease-out-expo) both;
     animation-delay: calc(var(--i, 0) * 70ms + 30ms);
   }
-  h1.rise {
+  h1.rise,
+  p.rise {
     animation-name: lift;
   }
 

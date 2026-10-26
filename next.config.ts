@@ -1,4 +1,17 @@
 import type { NextConfig } from "next";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { siteUrl } from "./src/content/site";
+
+/**
+ * Without NEXT_PUBLIC_SITE_URL (or Vercel's production URL), canonicals, the sitemap, Open Graph and JSON-LD
+ * all point at http://localhost:3000. Warn on any production build, and stop CI and Vercel builds outright.
+ */
+function checkSiteUrl() {
+  if (new URL(siteUrl).hostname !== "localhost") return;
+  const message = `Site URL resolved to ${siteUrl}. Set NEXT_PUBLIC_SITE_URL to the live domain, or every canonical and sitemap URL will point at localhost.`;
+  if (process.env.CI || process.env.VERCEL) throw new Error(message);
+  console.warn(`⚠ ${message}`);
+}
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -26,4 +39,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default function config(phase: string): NextConfig {
+  if (phase === PHASE_PRODUCTION_BUILD) checkSiteUrl();
+  return nextConfig;
+}

@@ -36,7 +36,12 @@ type PageMeta = {
  * Every page goes through here to get the complete set. Share images come from each route's opengraph-image.
  */
 /** Keep descriptions inside the ~160 characters Google shows, cutting at a word boundary. */
-const clip = (text: string, max = 160) => (text.length <= max ? text : `${text.slice(0, text.lastIndexOf(" ", max - 1)).replace(/[,.;:]$/, "")}.`);
+const clip = (text: string, max = 160) => {
+  if (text.length <= max) return text;
+  // Clipping can leave a dangling phrase ("20+."), so flag it in the build log for the copy to be rewritten.
+  console.warn(`Meta description is ${text.length} characters (max ${max}) and was clipped: "${text}"`);
+  return `${text.slice(0, text.lastIndexOf(" ", max - 1)).replace(/[,.;:]$/, "")}.`;
+};
 
 export function pageMetadata({ title, description: rawDescription, path, keywords = [], absoluteTitle, type = "website", noindex, article }: PageMeta): Metadata {
   const description = clip(rawDescription);
@@ -133,8 +138,9 @@ const portraitNode: Node = {
   "@id": ids.portrait,
   url: url(person.portrait),
   contentUrl: url(person.portrait),
-  width: 432,
-  height: 432,
+  // Pixel size of person.portrait.
+  width: 800,
+  height: 800,
   caption: `${person.name}, ${person.role}`,
 };
 
@@ -173,10 +179,13 @@ type WebPageInput = {
   type?: "WebPage" | "AboutPage" | "ProfilePage" | "CollectionPage" | "ContactPage" | "ItemPage";
   crumbs?: Crumb[];
   image?: string;
+  /** ISO date the page last changed; defaults to the site-wide contentUpdated. */
+  modified?: string;
   extra?: Node;
 };
 
-export const webPageNode = ({ path, name, description, type = "WebPage", crumbs, image, extra }: WebPageInput): Node => ({
+// No default `about`: most pages are about a service, project or topic, not the person. Pages about Osama pass it in `extra`.
+export const webPageNode = ({ path, name, description, type = "WebPage", crumbs, image, modified = contentUpdated, extra }: WebPageInput): Node => ({
   "@type": type,
   "@id": `${url(path)}#webpage`,
   url: url(path),
@@ -184,9 +193,8 @@ export const webPageNode = ({ path, name, description, type = "WebPage", crumbs,
   description,
   inLanguage: "en",
   isPartOf: { "@id": ids.website },
-  about: { "@id": ids.person },
   author: { "@id": ids.person },
-  dateModified: isoDateTime(contentUpdated),
+  dateModified: isoDateTime(modified),
   ...(image ? { primaryImageOfPage: { "@type": "ImageObject", url: url(image) } } : {}),
   ...(crumbs ? { breadcrumb: { "@id": `${url(path)}#breadcrumb` } } : {}),
   ...extra,
@@ -228,7 +236,9 @@ export const projectNode = (p: Project): Node => ({
   url: url(`/projects/${p.slug}`),
   ...(p.offline ? {} : { sameAs: p.href }),
   image: [p.image, ...p.gallery.map((g) => g.src)].map((i) => url(i)),
-  creator: { "@id": ids.person },
+  // Osama contributed to every project; only Alphinex's own product has a creator we can name. Client sites belong to the client.
+  contributor: { "@id": ids.person },
+  ...(p.inHouse ? { creator: { "@id": ids.employer } } : {}),
   keywords: [...p.categories, ...p.stack].join(", "),
 });
 

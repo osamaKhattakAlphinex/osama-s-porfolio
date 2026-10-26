@@ -31,7 +31,7 @@ import { IconTile, offeringIcons, skillIcons } from "@/components/icons";
 import { ContactForm } from "@/components/ContactForm";
 
 const title = `${person.name} | MERN Stack Developer in ${person.country}`;
-const description = `Hire ${person.name}, a MERN stack and Next.js developer in ${person.city}. I build complete web products: APIs, React interfaces and SaaS like Staffvertex. 20+ projects shipped.`;
+const description = `Hire ${person.name}, a MERN stack and Next.js developer in ${person.city}. I build complete web products, from APIs and React interfaces to SaaS like Staffvertex.`;
 
 export const metadata = pageMetadata({
   title,
@@ -94,7 +94,7 @@ export default function Home() {
               I build complete web products, from the API to the <span className="text-accent-ink">last pixel.</span>
             </h1>
             <p className="rise max-w-[34em] text-lg leading-[1.65] text-muted md:text-[1.1875rem]" style={{ "--i": 2 } as React.CSSProperties}>
-              I&apos;m Osama, a full-stack Next.js developer at {person.employer}. I build and maintain{" "}
+              I&apos;m {person.name}, a full-stack Next.js and MERN developer in {person.city}, {person.country}. At {person.employer} I build and maintain{" "}
               <Link href="/projects/staffvertex" className="font-semibold text-ink hover:text-accent-ink">
                 Staffvertex
               </Link>
@@ -153,7 +153,7 @@ export default function Home() {
             <div className="flex flex-wrap items-center gap-5 p-6 md:p-7">
               <Image src={person.portrait} alt={`Portrait of ${person.name}`} width={112} height={112} preload sizes="112px" className="h-24 w-24 rounded-[18px] bg-shot object-cover md:h-28 md:w-28" />
               <div className="flex min-w-0 flex-col gap-1">
-                <span className="font-display text-2xl font-semibold tracking-[-0.02em]">{person.fullName}</span>
+                <span className="font-display text-2xl font-semibold tracking-[-0.02em]">{person.name}</span>
                 <span className="text-[0.9375rem] text-muted">
                   {person.currentTitle}
                   <br />
@@ -342,7 +342,7 @@ export default function Home() {
                   {p.offline ? (
                     <span className="font-mono text-[0.8125rem] text-muted md:justify-self-end">site offline</span>
                   ) : (
-                    <a href={p.href} target="_blank" rel="noopener" aria-label={`Visit ${p.name} (opens ${host(p.href)})`} className="group inline-flex min-h-10 items-center gap-1.5 text-[0.9375rem] font-semibold text-accent-ink md:justify-self-end">
+                    <a href={p.href} target="_blank" rel="noopener" aria-label={`${host(p.href)}: visit ${p.name} (opens in a new tab)`} className="group inline-flex min-h-10 items-center gap-1.5 text-[0.9375rem] font-semibold text-accent-ink md:justify-self-end">
                       {host(p.href)}
                       <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">
                         →

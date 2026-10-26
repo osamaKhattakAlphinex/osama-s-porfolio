@@ -266,6 +266,8 @@ export type Project = {
   gallery: Shot[];
   /** The live site is down; show the project but don't send visitors to it. */
   offline?: boolean;
+  /** An Alphinex product rather than client work: structured data credits the employer as creator. */
+  inHouse?: boolean;
 };
 
 const shots = (slug: string, name: string, what: { home: string; section: string; mobile: string }): Shot[] => [
@@ -283,6 +285,7 @@ export const projects: Project[] = [
     categories: ["Full stack"],
     kind: "Time-tracking SaaS",
     role: "Full-stack developer",
+    inHouse: true,
     summary: "Time tracking and project management for teams that bill by the hour. I build and maintain its backend APIs and web app, and own its releases.",
     about:
       "Staffvertex is time tracking and project management for teams that bill or pay by the hour. People start a timer on the desktop app or in the browser, and the tracked hours turn into timesheets, reports and invoices. It is a product of Alphinex Solutions, where I work.",

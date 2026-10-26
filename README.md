@@ -14,7 +14,7 @@ npm run build && npm start
 
 | Env var | Why |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | The live domain, e.g. `https://osamakhattak.dev`. Canonicals, sitemap, Open Graph and JSON-LD all use it. On Vercel the production URL is used if this is unset, but set it once you have a custom domain. |
+| `NEXT_PUBLIC_SITE_URL` | The live domain, e.g. `https://osamakhattak.dev`. Canonicals, sitemap, Open Graph and JSON-LD all use it. On Vercel the production URL is used if this is unset, but set it once you have a custom domain. If neither is available, `next build` warns, and fails on CI or Vercel, rather than shipping localhost canonicals. |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Token from Google Search Console (HTML tag method). |
 | `NEXT_PUBLIC_BING_SITE_VERIFICATION` | Optional, Bing Webmaster Tools. |
 
@@ -24,7 +24,7 @@ After the first deploy: verify the site in Search Console, submit `/sitemap.xml`
 
 | Route | Targets | Structured data |
 | --- | --- | --- |
-| `/` | MERN stack developer (Pakistan, Islamabad) | WebPage, FAQPage |
+| `/` | MERN stack developer (Pakistan, Islamabad) | WebPage |
 | `/about` | Name searches, experience | ProfilePage (mainEntity Person) |
 | `/projects`, `/projects/[slug]` | Portfolio, each client project | CollectionPage + ItemList, ItemPage + CreativeWork |
 | `/services`, `/services/[slug]` | MERN, Next.js, React, WordPress, SEO, UI/UX service searches | CollectionPage, Service + OfferCatalog, FAQPage |
@@ -49,4 +49,4 @@ Add an entry to `projects` in `site.ts` with a screenshot in `public/work/` (Web
 
 ## Replacing the portrait
 
-Drop a high-resolution photo at `public/osama.jpg` (1200px or more, 4:5 or square). The current one is 432px, the weakest asset on the site.
+The portrait is `public/osama.png` (800×800), set as `person.portrait` in `site.ts`. If you replace it, keep it square and update the `width`/`height` of the portrait node in `src/lib/seo.tsx` to match.

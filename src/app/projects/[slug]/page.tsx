@@ -107,7 +107,7 @@ function HeroShot({ p, night }: { p: Project; night?: boolean }) {
           <div aria-hidden className={`pointer-events-none absolute inset-0 -z-10 ${night ? "pattern-grid-night" : "pattern-dots"} fade-top`} />
           <BrowserFrame url={p.offline ? `${host(p.href)} (archived)` : host(p.href)} night={night} className={night ? "" : "shadow-[0_30px_60px_-30px_var(--shadow)]"}>
             <div className="relative aspect-[16/10]">
-              <Image src={heroShot(p)} alt={`${p.name} home page on desktop`} fill preload sizes="(min-width: 1200px) 1020px, 100vw" className="object-cover object-top" />
+              <Image src={heroShot(p)} alt={`${p.name} home page on desktop`} fill loading="eager" fetchPriority="high" sizes="(min-width: 1200px) 1020px, 100vw" className="object-cover object-top" />
             </div>
           </BrowserFrame>
           {phone && !night && (

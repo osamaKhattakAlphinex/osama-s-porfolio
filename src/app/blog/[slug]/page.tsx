@@ -57,7 +57,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
     <>
       <JsonLd
         nodes={[
-          webPageNode({ path, name: post.metaTitle, description: post.description, crumbs, image: post.image, extra: { mainEntity: { "@id": blogPostingNode(post, words)["@id"] } } }),
+          webPageNode({ path, name: post.metaTitle, description: post.description, crumbs, image: post.image, modified: post.updated, extra: { mainEntity: { "@id": blogPostingNode(post, words)["@id"] } } }),
           blogPostingNode(post, words),
           faqNode(path, post.faqs),
           breadcrumbNode(path, crumbs),

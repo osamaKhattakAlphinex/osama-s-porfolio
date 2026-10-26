@@ -4,6 +4,7 @@ import { services } from "@/content/site";
 import { ButtonLink, Container } from "@/components/ui";
 import { Backdrop } from "@/components/backdrops";
 
+// Next.js also adds its own `noindex` tag here. Keep this one: without it the page inherits the layout's `index, follow`.
 export const metadata: Metadata = {
   title: "Page not found",
   robots: { index: false, follow: true },

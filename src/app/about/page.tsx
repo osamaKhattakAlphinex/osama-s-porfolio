@@ -53,7 +53,7 @@ export default function About() {
           <div className="flex flex-col gap-6">
             <Breadcrumbs crumbs={crumbs} />
             <h1 id="about-title" className="rise display text-[clamp(2.4rem,6vw,5rem)] leading-none">
-              About
+              About{" "}
               <br />
               {person.name}.
             </h1>

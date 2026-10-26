@@ -59,7 +59,7 @@ export default function Blog() {
         titleClass=""
         title={
           <>
-            Notes from
+            Notes from{" "}
             <br />
             the work.
           </>

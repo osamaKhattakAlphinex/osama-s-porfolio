@@ -6,7 +6,7 @@ import { ScreenFan } from "@/components/backdrops";
 
 const path = "/projects";
 const crumbs = [{ name: "Work", path }];
-const description = `Web development projects by ${person.name}: a time-tracking SaaS, full-stack apps, React front ends, WordPress stores and SEO work, each live and linked. ${projects.length} case studies.`;
+const description = `${projects.length} web projects by ${person.name}: a time-tracking SaaS, React front ends, WordPress stores and SEO work, each with a case study of what I built.`;
 
 export const metadata = pageMetadata({
   title: "Work: MERN, Next.js, React and WordPress Projects",

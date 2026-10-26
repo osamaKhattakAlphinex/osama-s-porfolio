@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const path = "/contact";
 const crumbs = [{ name: "Contact", path }];
-const description = `Hire ${person.name}, MERN stack and Next.js developer, for your next web app, website or SEO project, or a full-time remote role. Send a message or email directly.`;
+const description = `Hire ${person.name}, MERN stack and Next.js developer, for your next web app, website or SEO project, or a full-time remote role. Send a message or email.`;
 
 export const metadata = pageMetadata({
   title: "Contact: Hire a MERN Stack Developer",
@@ -39,7 +39,7 @@ export default function Contact() {
           <div className="flex flex-col gap-5.5">
             <Breadcrumbs crumbs={crumbs} />
             <h1 id="contact-title" className="rise display text-[clamp(2.4rem,6vw,4.8rem)] leading-none">
-              Let&apos;s build
+              Let&apos;s build{" "}
               <br />
               <span className="text-accent-ink">something.</span>
             </h1>
