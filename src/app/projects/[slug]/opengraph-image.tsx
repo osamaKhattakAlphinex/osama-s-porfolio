@@ -1,4 +1,4 @@
-import { person, projectBySlug, projects } from "@/content/site";
+import { heroShot, person, projectBySlug, projects } from "@/content/site";
 import { ogImage } from "@/lib/og";
 
 export const alt = `Project case study by ${person.name}`;
@@ -11,5 +11,5 @@ export function generateStaticParams() {
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const p = projectBySlug((await params).slug)!;
-  return ogImage({ title: p.name, kicker: `Case study: ${p.kind}`, tags: p.categories, image: p.image });
+  return ogImage({ title: p.name, kicker: `Case study · ${p.kind}`, tags: p.categories, image: heroShot(p) });
 }

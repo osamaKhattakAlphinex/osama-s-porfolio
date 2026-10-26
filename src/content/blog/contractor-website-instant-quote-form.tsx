@@ -15,7 +15,7 @@ export const meta: PostMeta = {
   project: "carports-hawaii",
   services: ["wordpress-development", "ui-ux-design"],
   image: "/blog/contractor-website-instant-quote-form.webp",
-  imageAlt: "Carports Hawaii contractor website with the title: Contractor website design with an instant quote form",
+  imageAlt: "Carports Hawaii home page in a browser window: aluminium carports, patio and pool covers with installation",
   excerpt:
     "Most contractor websites ask visitors to call for a price, and most visitors leave instead. An instant estimate changes that. Here's how I approach it, from building Carports Hawaii.",
   toc: [

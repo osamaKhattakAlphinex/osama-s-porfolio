@@ -1,66 +1,92 @@
 import Link from "next/link";
-import { person, projects, services, socials } from "@/content/site";
-import { Logo } from "./Header";
+import { person, services, socials } from "@/content/site";
+
+const pages = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Work" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
+  { href: "/blog", label: "Writing" },
+  { href: "/contact", label: "Contact" },
+];
+
+/** Short names for the footer's services column. */
+const shortName: Record<string, string> = {
+  "react-development": "React front end",
+  "wordpress-development": "WordPress",
+  "seo-services": "SEO",
+};
 
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-rule bg-sheet">
-      <div className="mx-auto grid max-w-[1240px] grid-cols-2 gap-x-8 gap-y-12 px-4 py-16 md:grid-cols-12 md:px-8">
-        <div className="col-span-2 md:col-span-4">
-          <Logo />
-          <p className="mt-5 max-w-[34ch] text-[0.975rem] text-ink-2">
-            {person.role} in {person.city}, {person.country}. Building fast, search-ready web apps for clients and teams worldwide.
-          </p>
-          <a href={`mailto:${person.email}`} className="mt-5 inline-block font-medium underline decoration-rule-strong hover:decoration-ink">
-            {person.email}
-          </a>
-        </div>
+    <footer className="relative isolate overflow-hidden bg-night text-night-muted">
+      <div aria-hidden className="pattern-grid-night fade-top pointer-events-none absolute inset-0 -z-10" />
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 pt-14 pb-8 text-[0.9375rem] sm:px-6 md:gap-12 md:pt-[4.5rem] md:pb-10">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4">
+          <div className="col-span-2 flex flex-col gap-3.5 md:col-span-1">
+            <span className="flex items-center gap-2.5 font-display text-lg font-semibold text-white">
+              <span aria-hidden className="inline-flex h-8 w-8 items-center justify-center rounded-[9px] bg-white text-[0.8125rem] font-bold text-[#0c1222]">
+                OK
+              </span>
+              {person.name}
+            </span>
+            <p>
+              Full-stack developer building web products with React, Next.js and Node.js. {person.city}, working worldwide.
+            </p>
+            <a href={`mailto:${person.email}`} className="break-all text-night-link hover:text-white">
+              {person.email}
+            </a>
+          </div>
 
-        <FooterCol title="Services" className="col-span-2 sm:col-span-1 md:col-span-3">
-          {services.map((s) => (
-            <FooterLink key={s.slug} href={`/services/${s.slug}`}>
-              {s.name}
-            </FooterLink>
-          ))}
-        </FooterCol>
+          <FooterCol title="Pages">
+            {pages.map((p) => (
+              <FooterLink key={p.href} href={p.href}>
+                {p.label}
+              </FooterLink>
+            ))}
+          </FooterCol>
 
-        <FooterCol title="Work" className="md:col-span-2">
-          {projects.slice(0, 5).map((p) => (
-            <FooterLink key={p.slug} href={`/projects/${p.slug}`}>
-              {p.name}
-            </FooterLink>
-          ))}
-          <FooterLink href="/projects">All projects</FooterLink>
-        </FooterCol>
+          <FooterCol title="Services">
+            {services.map((s) => (
+              <FooterLink key={s.slug} href={`/services/${s.slug}`}>
+                {shortName[s.slug] ?? s.name}
+              </FooterLink>
+            ))}
+          </FooterCol>
 
-        <FooterCol title="Site" className="md:col-span-3">
-          <FooterLink href="/blog">Blog</FooterLink>
-          <FooterLink href="/about">About</FooterLink>
-          <FooterLink href="/contact">Contact</FooterLink>
-          {socials.map((s) => (
-            <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer me" className="text-ink-2 transition-colors hover:text-ink">
-                {s.label}
+          <FooterCol title="Elsewhere">
+            <li>
+              <a href={`mailto:${person.email}`} className="text-night-link transition-colors hover:text-white">
+                Email
               </a>
             </li>
-          ))}
-        </FooterCol>
-      </div>
-      <div className="border-t border-rule">
-        <p className="mx-auto max-w-[1240px] px-4 py-6 text-sm text-ink-2 md:px-8">
-          © {year} {person.fullName} ({person.name}). All rights reserved.
-        </p>
+            {socials.map((s) => (
+              <li key={s.label}>
+                <a href={s.href} target="_blank" rel="noopener noreferrer me" className="text-night-link transition-colors hover:text-white">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </FooterCol>
+        </div>
+
+        <div className="flex flex-wrap justify-between gap-3 border-t border-night-rule pt-6 text-sm">
+          <p>
+            © {year} {person.fullName}
+          </p>
+          <p>Designed and built by Osama</p>
+        </div>
       </div>
     </footer>
   );
 }
 
-function FooterCol({ title, className, children }: { title: string; className?: string; children: React.ReactNode }) {
+function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <nav aria-label={title} className={className}>
-      <p className="font-mono text-xs text-ink-2">{title}</p>
-      <ul className="mt-4 space-y-2.5 text-[0.95rem]">{children}</ul>
+    <nav aria-label={title}>
+      <p className="eyebrow text-xs text-night-ink">{title}</p>
+      <ul className="mt-3.5 flex flex-col gap-2.5">{children}</ul>
     </nav>
   );
 }
@@ -68,7 +94,7 @@ function FooterCol({ title, className, children }: { title: string; className?: 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link href={href} className="text-ink-2 transition-colors hover:text-ink">
+      <Link href={href} className="text-night-link transition-colors hover:text-white">
         {children}
       </Link>
     </li>

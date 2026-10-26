@@ -11,6 +11,7 @@ import {
   siNodedotjs,
   siReact,
   siTailwindcss,
+  siVercel,
   siWoocommerce,
   siWordpress,
   type SimpleIcon,
@@ -33,6 +34,7 @@ const logos: Record<Tool, SimpleIcon> = {
   Figma: siFigma,
   Git: siGit,
   GitHub: siGithub,
+  Vercel: siVercel,
 };
 
 export function StackIcon({ tool, size = 16, className = "" }: { tool: Tool; size?: number; className?: string }) {
@@ -48,8 +50,8 @@ export function ToolList({ tools, label = "Tools" }: { tools: Tool[]; label?: st
   return (
     <ul aria-label={label} className="flex flex-wrap gap-2">
       {tools.map((t) => (
-        <li key={t} className="inline-flex h-9 items-center gap-2 rounded-lg border border-rule bg-sheet px-3 text-sm font-medium">
-          <StackIcon tool={t} className="text-ink-2" />
+        <li key={t} className="inline-flex items-center gap-2 rounded-lg border border-chip-rule bg-chip px-2.5 py-1.5 font-mono text-xs text-accent-soft-ink">
+          <StackIcon tool={t} size={14} />
           {t}
         </li>
       ))}

@@ -6,5 +6,5 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function Image() {
-  return ogImage({ title: "Hire a MERN stack developer.", kicker: "Contact", tags: ["Freelance", "Full-time", "Remote"] });
+  return ogImage({ title: "Let's build something.", kicker: "Hire a MERN stack developer", tags: ["Freelance", "Full-time", "Remote"] });
 }

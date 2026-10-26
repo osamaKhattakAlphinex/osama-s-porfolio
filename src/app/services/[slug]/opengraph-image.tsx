@@ -11,5 +11,5 @@ export function generateStaticParams() {
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const s = serviceBySlug((await params).slug)!;
-  return ogImage({ title: s.heading, kicker: "Service", tags: s.tools.slice(0, 4) });
+  return ogImage({ title: s.heading, kicker: `Service ${s.n} / 06`, tags: s.tools.slice(0, 4) });
 }

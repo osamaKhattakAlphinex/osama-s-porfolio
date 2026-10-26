@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: `Portfolio of ${person.name}, MERN stack and Next.js developer in ${person.city}, ${person.country}.`,
     start_url: "/",
     display: "browser",
-    background_color: "#0b0c0e",
-    theme_color: "#0b0c0e",
+    background_color: "#f4f5f7",
+    theme_color: "#0c1222",
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml" },
       { src: "/apple-icon", sizes: "180x180", type: "image/png" },

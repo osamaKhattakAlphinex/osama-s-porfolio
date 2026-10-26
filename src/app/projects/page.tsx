@@ -1,18 +1,18 @@
-import { person, projects } from "@/content/site";
+import { heroShot, person, projectBySlug, projects } from "@/content/site";
 import { JsonLd, breadcrumbNode, pageMetadata, url, webPageNode } from "@/lib/seo";
-import { Container, PageHeader } from "@/components/ui";
-import { CtaBand } from "@/components/sections";
+import { Container, CtaPanel, PageIntro } from "@/components/ui";
 import { ProjectFilter } from "@/components/ProjectFilter";
+import { ScreenFan } from "@/components/backdrops";
 
 const path = "/projects";
-const crumbs = [{ name: "Projects", path }];
-const description = `Web development projects by ${person.name}: full-stack apps, React front ends, WordPress stores and SEO work, each live and linked. ${projects.length} case studies.`;
+const crumbs = [{ name: "Work", path }];
+const description = `Web development projects by ${person.name}: a time-tracking SaaS, full-stack apps, React front ends, WordPress stores and SEO work, each live and linked. ${projects.length} case studies.`;
 
 export const metadata = pageMetadata({
-  title: "Projects: MERN, React and WordPress Work",
+  title: "Work: MERN, Next.js, React and WordPress Projects",
   description,
   path,
-  keywords: ["MERN stack projects", "full stack developer portfolio", "web developer portfolio Pakistan", "React projects", "WordPress projects"],
+  keywords: ["MERN stack projects", "full stack developer portfolio", "web developer portfolio Pakistan", "Next.js projects", "React projects", "WordPress projects"],
 });
 
 export default function Projects() {
@@ -22,7 +22,7 @@ export default function Projects() {
         nodes={[
           webPageNode({
             path,
-            name: `Projects by ${person.name}`,
+            name: `Work by ${person.name}`,
             description,
             type: "CollectionPage",
             crumbs,
@@ -38,19 +38,21 @@ export default function Projects() {
         ]}
       />
 
-      <PageHeader
+      <PageIntro
         crumbs={crumbs}
-        title="Projects, shipped and live."
-        lede="Client work across full-stack apps, React front ends, WordPress and SEO. Every project here is real and online; open any of them for what I built."
+        titleClass="max-w-[12ch]"
+        title="Work that's live and in use."
+        lede="A SaaS product I build every day, plus stores, lead-generation sites and publications for clients. Each page says exactly what my part was."
+        visual={<ScreenFan shots={["timbera", "networkustad", "staffvertex"].map((s) => ({ src: heroShot(projectBySlug(s)!), alt: "" }))} />}
       />
 
-      <section aria-label="All projects" className="py-16 md:py-24">
+      <section aria-label="Projects" className="pt-4 pb-6 md:pt-4">
         <Container>
           <ProjectFilter />
         </Container>
       </section>
 
-      <CtaBand title="Want yours on this page?" />
+      <CtaPanel title="Want yours on this page?" body="Tell me what you're building and when you need it." label="Start a project" />
     </>
   );
 }

@@ -15,7 +15,7 @@ export const meta: PostMeta = {
   project: "networkustad",
   services: ["seo-services", "nextjs-development"],
   image: "/blog/technical-seo-checklist.webp",
-  imageAlt: "NetworkUstad IT certification guides with the title: Technical SEO checklist for blogs and content sites",
+  imageAlt: "NetworkUstad IT certification guides home page in a browser window",
   excerpt:
     "Great articles don't rank if Google can't crawl, understand and trust the site around them. This is the checklist I work through on content sites, starting with the boring parts that matter most.",
   toc: [

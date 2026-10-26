@@ -26,7 +26,7 @@ function toOrigin(value: string | undefined): string | null {
 }
 
 /** Bump when content changes; feeds sitemap lastModified and JSON-LD dateModified. */
-export const contentUpdated = "2026-09-30";
+export const contentUpdated = "2026-10-26";
 
 /** Google wants full ISO 8601 date-times with a timezone in structured data (Pakistan, UTC+5). */
 export const isoDateTime = (date: string) => `${date}T00:00:00+05:00`;
@@ -43,6 +43,10 @@ export const person = {
   employer: "Alphinex Solutions",
   currentTitle: "Full Stack Next.js Developer",
   since: 2021,
+  employerSince: "Oct 2024",
+  timezone: "UTC+5",
+  /** Public path of a résumé PDF in /public. Leave null until one exists: the site then offers to email it instead. */
+  resume: null as string | null,
 };
 
 export const socials = [
@@ -74,8 +78,69 @@ export const stack = [
   "Figma",
   "Git",
   "GitHub",
+  "Vercel",
 ] as const;
 export type Tool = (typeof stack)[number];
+
+/** The tools in the home hero's "daily stack" line. */
+export const dailyStack: Tool[] = ["React", "Next.js", "Node.js", "Express", "MongoDB", "Tailwind CSS"];
+
+/** Home page skills: grouped by where they sit in a product. Core tools are the ones used daily on production work. */
+export const skillMap: { name: string; note: string; items: { label: string; tool?: Tool; core?: boolean }[] }[] = [
+  {
+    name: "Frontend",
+    note: "Responsive, accessible interfaces from reusable components.",
+    items: [
+      { label: "React", tool: "React", core: true },
+      { label: "Next.js", tool: "Next.js", core: true },
+      { label: "JavaScript", tool: "JavaScript", core: true },
+      { label: "Tailwind CSS", tool: "Tailwind CSS", core: true },
+      { label: "Bootstrap", tool: "Bootstrap" },
+      { label: "HTML & CSS" },
+    ],
+  },
+  {
+    name: "Backend & APIs",
+    note: "APIs, server logic and data flows for real products.",
+    items: [
+      { label: "Node.js", tool: "Node.js", core: true },
+      { label: "Express", tool: "Express", core: true },
+      { label: "REST APIs", core: true },
+      { label: "Laravel", tool: "Laravel" },
+    ],
+  },
+  {
+    name: "Databases",
+    note: "Schemas and indexes designed around how the app reads data.",
+    items: [{ label: "MongoDB", tool: "MongoDB", core: true }, { label: "Data modeling" }, { label: "Indexing" }],
+  },
+  {
+    name: "Auth & security",
+    note: "Accounts and role-based access for admins, staff and customers.",
+    items: [{ label: "Sign-up & login" }, { label: "Role-based access" }, { label: "Input validation" }],
+  },
+  {
+    name: "Deployment & tools",
+    note: "Production builds, environments and a clean handover.",
+    items: [
+      { label: "Vercel", tool: "Vercel", core: true },
+      { label: "Git", tool: "Git", core: true },
+      { label: "GitHub", tool: "GitHub", core: true },
+      { label: "Environment config" },
+    ],
+  },
+  {
+    name: "CMS, SEO & design",
+    note: "Content sites, stores and search, designed in Figma first.",
+    items: [
+      { label: "WordPress", tool: "WordPress" },
+      { label: "WooCommerce", tool: "WooCommerce" },
+      { label: "Technical SEO" },
+      { label: "Structured data" },
+      { label: "Figma", tool: "Figma" },
+    ],
+  },
+];
 
 export const skillGroups: { name: string; items: Tool[]; note: string }[] = [
   { name: "Front end", items: ["React", "Next.js", "JavaScript", "Tailwind CSS", "Bootstrap"], note: "Responsive, accessible interfaces built from reusable components." },
@@ -154,6 +219,7 @@ export const roles: Role[] = [
       "Leads full-stack Next.js work: 35% faster applications, 40% fewer deployment bugs.",
       "Owns whole projects alone, from design through testing, delivered ahead of deadline.",
       "Applied UI and UX improvements that raised customer satisfaction by 25%.",
+      "Builds and maintains Staffvertex: backend APIs, the web app and every release.",
     ],
   },
 ];
@@ -192,6 +258,10 @@ export type Project = {
   /** Only tools confirmed for this project. Leave empty rather than guess. */
   stack: Tool[];
   kind: string;
+  /** Osama's part, in a few words, for the case-study fact row. */
+  role: string;
+  /** Shown under "What I did" when the work was narrower than the site (e.g. SEO only). */
+  roleNote?: string;
   /** Extra screenshots for the case-study gallery. */
   gallery: Shot[];
   /** The live site is down; show the project but don't send visitors to it. */
@@ -212,7 +282,8 @@ export const projects: Project[] = [
     image: "/work/staffvertex/home.webp",
     categories: ["Full stack"],
     kind: "Time-tracking SaaS",
-    summary: "A time-tracking product in the vein of Hubstaff. I built and maintain all of it: backend APIs, interface and fixes.",
+    role: "Full-stack developer",
+    summary: "Time tracking and project management for teams that bill by the hour. I build and maintain its backend APIs and web app, and own its releases.",
     about:
       "Staffvertex is time tracking and project management for teams that bill or pay by the hour. People start a timer on the desktop app or in the browser, and the tracked hours turn into timesheets, reports and invoices. It is a product of Alphinex Solutions, where I work.",
     features: [
@@ -229,7 +300,7 @@ export const projects: Project[] = [
       "Own maintenance end to end: bug fixes, improvements and releases.",
     ],
     services: ["mern-stack-development", "nextjs-development"],
-    stack: ["Next.js"],
+    stack: ["Next.js", "React", "Node.js"],
     gallery: shots("staffvertex", "Staffvertex", {
       home: "The home page: start the timer in one click, free to start.",
       section: "How a tracked day works, from the first click to the invoice.",
@@ -243,6 +314,7 @@ export const projects: Project[] = [
     image: "/work/timbera.webp",
     categories: ["WordPress", "Frontend"],
     kind: "Furniture ecommerce store",
+    role: "WordPress build and storefront",
     summary: "Ecommerce furniture store on WordPress with a custom, responsive storefront.",
     about:
       "Timbera.pk is an online furniture store based in Islamabad. It sells sofas, beds, dining tables, chairs, mirrors, shelving and consoles, priced in rupees, to customers across Pakistan.",
@@ -269,6 +341,7 @@ export const projects: Project[] = [
     image: "/work/carport.webp",
     categories: ["WordPress"],
     kind: "Contractor website",
+    role: "WordPress site and quote form",
     summary: "Company site for aluminium carports, patio and pool covers, with an instant-quote form.",
     about:
       "Carports Hawaii designs and installs aluminium carports, patio covers, pergolas and awnings across the Hawaiian islands. The website exists to turn a homeowner's first visit into a quote request.",
@@ -295,6 +368,7 @@ export const projects: Project[] = [
     image: "/work/e-diary.webp",
     categories: ["Frontend"],
     kind: "Leadership publication",
+    role: "Custom front end",
     summary: "Leadership platform publishing articles and interviews from executives, on a custom front end.",
     about:
       "ExecutivesDiary publishes the career stories of senior leaders: biographies and thought-leadership pieces written from interviews. Readers come for long-form content, so the front end is built for reading.",
@@ -311,6 +385,7 @@ export const projects: Project[] = [
     image: "/work/teey.webp",
     categories: ["Frontend"],
     kind: "Printing and branding studio",
+    role: "Front-end build",
     summary: "Printing and branding studio site, laid out around service bookings.",
     about:
       "Teey.pk is a custom print and promotional products studio in Islamabad. It handles design, offset and digital printing, event branding, promotional products, media production and digital marketing.",
@@ -335,6 +410,7 @@ export const projects: Project[] = [
     image: "/work/cph.webp",
     categories: ["Frontend"],
     kind: "Consulting marketplace",
+    role: "Responsive interface and workflows",
     summary: "Gig marketplace for consultants, with a responsive interface for booking and consulting workflows.",
     about:
       "ConsultantsPerHour was a US marketplace that billed itself as a town square for the gig economy. Consultants built a profile, set out their expertise and rates, and were invited to vetted gigs. Employers could pick a consultant directly, post a job, or book a call with a recruiter.",
@@ -360,6 +436,7 @@ export const projects: Project[] = [
     image: "/work/mindsieve.webp",
     categories: ["WordPress"],
     kind: "Blogging platform",
+    role: "WordPress build and on-page SEO",
     summary: "Blogging platform with category-based publishing and built-in SEO.",
     about: "Mindsieves publishes essays and videos on Islamic thought, culture and current affairs. It needed an easy publishing flow for its writers and solid search foundations.",
     features: ["Category-based publishing.", "Featured posts on the home page.", "Search-ready posts from the moment they are published."],
@@ -375,6 +452,8 @@ export const projects: Project[] = [
     image: "/work/nw.webp",
     categories: ["SEO"],
     kind: "IT certification publication",
+    role: "On-page and off-page SEO",
+    roleNote: "My work here was SEO, not the design.",
     summary: "On-page and off-page SEO that put this tech publication among Google's top results.",
     about:
       "NetworkUstad publishes free study guides for IT certifications such as CCNA, Security+ and Network+, along with networking and cybersecurity articles. Almost all of its readers arrive from search, so rankings are the business.",
@@ -400,6 +479,8 @@ export const projects: Project[] = [
     image: "/work/e-d-2.webp",
     categories: ["SEO"],
     kind: "Multi-topic blog",
+    role: "Keyword research and technical SEO",
+    roleNote: "My work here was SEO, not the design.",
     summary: "Keyword research and technical fixes that improved search performance for this blog.",
     about:
       "EditorialDiary is a multi-topic blog covering technology, business, travel, health, real estate and more. With that many topics, choosing which keywords to chase matters as much as the writing.",
@@ -429,6 +510,10 @@ export type ServiceSlug =
 
 export type Service = {
   slug: ServiceSlug;
+  /** Two-digit position, shown as "Service 01 / 06". */
+  n: string;
+  /** Core offer (daily work) or also available. */
+  core: boolean;
   name: string;
   /** Page H1, the phrase people search for. */
   heading: string;
@@ -443,11 +528,21 @@ export type Service = {
   deliverables: { title: string; body: string }[];
   tools: Tool[];
   faqs: { q: string; a: string }[];
+  /** Three deliverables shown as ticks on the services index. */
+  highlights: string[];
+  /** Headline of the closing call to action. */
+  cta: string;
+  /** Shown under the proof projects, when they need a caveat. */
+  proofNote?: string;
 };
 
 export const services: Service[] = [
   {
     slug: "mern-stack-development",
+    n: "01",
+    core: true,
+    highlights: ["APIs with Express and Node.js", "MongoDB data modeling", "Accounts and roles"],
+    cta: "Planning a web app on the MERN stack?",
     name: "MERN stack development",
     heading: "MERN stack development services",
     metaTitle: "MERN Stack Development Services",
@@ -483,6 +578,10 @@ export const services: Service[] = [
   },
   {
     slug: "nextjs-development",
+    n: "02",
+    core: true,
+    highlights: ["Marketing sites that rank", "Full-stack web apps", "Migrations without losing rankings"],
+    cta: "Need a Next.js site that is fast and ranks?",
     name: "Next.js development",
     heading: "Next.js development services",
     metaTitle: "Next.js Developer for Hire",
@@ -509,6 +608,10 @@ export const services: Service[] = [
   },
   {
     slug: "react-development",
+    n: "03",
+    core: true,
+    highlights: ["Design to code", "Component systems", "API integration"],
+    cta: "Have a design that needs building in React?",
     name: "React front-end development",
     heading: "React front-end development",
     metaTitle: "React Front-End Developer for Hire",
@@ -534,6 +637,10 @@ export const services: Service[] = [
   },
   {
     slug: "wordpress-development",
+    n: "04",
+    core: false,
+    highlights: ["Custom themes", "Ecommerce", "Speed optimization"],
+    cta: "Want a WordPress site your team can run?",
     name: "WordPress development",
     heading: "WordPress development services",
     metaTitle: "WordPress Developer for Hire",
@@ -559,6 +666,11 @@ export const services: Service[] = [
   },
   {
     slug: "seo-services",
+    n: "05",
+    core: false,
+    highlights: ["Technical SEO audit", "Structured data", "Keyword research and reporting"],
+    cta: "Good content, but not ranking?",
+    proofNote: "On NetworkUstad and EditorialDiary my work was SEO, not the design.",
     name: "SEO services",
     heading: "SEO services for websites and web apps",
     metaTitle: "SEO Services: Technical and On-Page SEO",
@@ -584,6 +696,10 @@ export const services: Service[] = [
   },
   {
     slug: "ui-ux-design",
+    n: "06",
+    core: false,
+    highlights: ["Wireframes", "Clickable prototypes", "Interface design"],
+    cta: "Want to see your product before it is built?",
     name: "UI and UX design",
     heading: "UI and UX design in Figma",
     metaTitle: "UI/UX Design for Web Apps in Figma",
@@ -635,10 +751,82 @@ export const faqs = [
 
 export const formEndpoint = "https://formspree.io/f/xpwrjvey";
 
+// ---------- Home page and case-study extras ----------
+
+/** One line per project for the home page's project index ("What I did"). */
+export const projectOneLiners: Record<string, string> = {
+  teey: "Front end structured around service bookings",
+  executivesdiary: "Custom front end built for long-form reading",
+  consultantsperhour: "Responsive browse and booking interface",
+  mindsieves: "WordPress blog with search-ready publishing",
+  networkustad: "On-page and off-page SEO into top results",
+  editorialdiary: "Keyword research and technical SEO fixes",
+};
+
+/** The Staffvertex case study goes deeper than the other projects. Facts from the product and the build article. */
+export const staffvertexStory = {
+  headline: "Building and running Staffvertex, a multi-tenant time tracker.",
+  lede: "Time tracking and project management for teams that bill or pay by the hour. Tracked time turns into timesheets, reports and invoices. I build its backend APIs and web app, and own its maintenance and releases.",
+  problem:
+    "When a team pays or invoices by the hour, the hours have to be right. People forget to start timers, lose connection mid-task, log meetings after the fact and split time across projects. Every gap turns into a dispute on a timesheet or an invoice.",
+  product:
+    "People start a timer on the desktop app or in the browser. The tracked hours flow into projects, boards, timesheets, reports and invoices, with each team's workspace kept separate. A free plan covers one user; Pro and Business are per seat.",
+  homeProblem:
+    "Teams that pay or invoice by the hour need hours they can trust. People forget timers, lose Wi-Fi and edit entries after the fact, and every one of those turns into a dispute on the invoice.",
+  homeRole: [
+    "Built the backend APIs that record time, tasks and team data.",
+    "Built the web app teams use every day: timer, projects, boards and reports.",
+    "Own maintenance end to end: bug fixes, improvements and releases.",
+  ],
+  features: [
+    { title: "Offline-safe timer", body: "Desktop timer for Windows and macOS keeps counting when Wi-Fi drops and syncs when it returns.", short: "Keeps counting without Wi-Fi, syncs on reconnect." },
+    { title: "Idle-time policies", body: "Each team decides whether idle time is kept, discarded or asked about.", short: "Keep, discard or ask, decided by the team." },
+    { title: "Privacy-first screenshots", body: "Optional, off by default, with blur controls.", short: "" },
+    { title: "Projects & boards", body: "Tasks, dependencies and deadlines alongside the timer.", short: "Tasks, dependencies and deadlines beside the timer." },
+    { title: "Timesheets to invoices", body: "Overtime, exportable reports, invoices and pay rates.", short: "Timesheets, overtime, reports, pay rates." },
+    { title: "Per-seat plans", body: "Free for one user, then Pro and Business per seat.", short: "" },
+  ],
+  engineeringIntro:
+    "A time tracker is really three apps sharing one API: the web app for planning and reports, the desktop app that tracks, and the API with its database in the middle. The web app runs on Next.js, which also server-renders the public marketing and pricing pages so they rank.",
+  engineering: [
+    { title: "Store intervals, not totals", body: "Each entry has start, end, user, project and task in UTC. Durations are calculated, never the only record." },
+    { title: "Record the source and keep edit history", body: "Desktop, web or manual, plus the old values on every change. It settles disputes and catches bugs." },
+    { title: "Index for the questions asked most", body: "User + start time covers \"my week\"; project + start time covers project reports." },
+    { title: "Day boundaries in the user's time zone", body: "Midnight where the person is, not midnight on the server." },
+  ],
+  outcome:
+    "Staffvertex is live and in active development, with public sign-up, a free plan and paid per-seat tiers. I continue to ship its fixes and features.",
+  tags: ["Next.js", "React", "Node.js API", "Multi-tenant"],
+};
+
+/** The screenshot that represents each service: real work that service was used on. */
+export const serviceVisual: Record<ServiceSlug, string> = {
+  "mern-stack-development": "/work/staffvertex/section.webp",
+  "nextjs-development": "/work/staffvertex/home.webp",
+  "react-development": "/work/teey/home.webp",
+  "wordpress-development": "/work/timbera/home.webp",
+  "seo-services": "/work/networkustad/home.webp",
+  "ui-ux-design": "/work/cph.webp",
+};
+
+/** Career track bar (hero and About): share of time in each phase, oldest first. */
+export const careerTrack = [
+  { label: "SEO", years: "2021", weight: 6 },
+  { label: "WordPress", years: "2021", weight: 6 },
+  { label: "HTML, CSS, Bootstrap", years: "2022", weight: 12 },
+  { label: "React, CareerBooster.ai", years: "2023", weight: 22 },
+  { label: "Full stack, Alphinex", years: "2024", weight: 24 },
+];
+
 // ---------- Helpers ----------
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export const fmtMonth = ([y, m]: [number, number]) => `${MONTHS[m - 1]} ${y}`;
-export const fmtRange = (start: [number, number], end: [number, number] | "now") => `${fmtMonth(start)} - ${end === "now" ? "Present" : fmtMonth(end)}`;
+export const fmtRange = (start: [number, number], end: [number, number] | "now") => `${fmtMonth(start)} – ${end === "now" ? "Present" : fmtMonth(end)}`;
 export const isoMonth = ([y, m]: [number, number]) => `${y}-${String(m).padStart(2, "0")}`;
 export const host = (href: string) => new URL(href).hostname.replace(/^www\./, "");
+
+/** The best desktop screenshot for a project: the 16:10 home capture when there is one. */
+export const heroShot = (p: Project) => p.gallery.find((g) => g.src.endsWith("/home.webp"))?.src ?? p.image;
+export const mobileShot = (p: Project) => p.gallery.find((g) => g.height > g.width);
+export const sectionShot = (p: Project) => p.gallery.find((g) => g.src.endsWith("/section.webp"));

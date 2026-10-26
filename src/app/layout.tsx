@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { person, siteUrl } from "@/content/site";
 import { siteName } from "@/lib/seo";
 import { Header } from "@/components/Header";
@@ -7,8 +7,9 @@ import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 // Self-hosted at build time, Latin subset only. Mono is used for small labels, so it isn't preloaded.
-const sans = Geist({ subsets: ["latin"], variable: "--font-geist-sans", display: "swap" });
-const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap", preload: false });
+const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap", axes: ["opsz"] });
+const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-instrument", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap", preload: false });
 
 // Site-wide defaults. Each page overrides title, description, canonical and Open Graph through pageMetadata().
 export const metadata: Metadata = {
@@ -37,8 +38,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f6f7" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0c0e" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f5f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#080c16" },
   ],
 };
 
@@ -47,7 +48,7 @@ const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" dir="ltr" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" dir="ltr" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
@@ -55,7 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body suppressHydrationWarning>
         <a
           href="#main"
-          className="sr-only z-50 rounded-xl bg-accent px-4 py-2 font-semibold text-on-accent focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-50 rounded-xl bg-accent px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Skip to content
         </a>

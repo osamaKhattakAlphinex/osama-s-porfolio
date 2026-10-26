@@ -15,7 +15,7 @@ export const meta: PostMeta = {
   project: "timbera",
   services: ["wordpress-development", "seo-services"],
   image: "/blog/furniture-ecommerce-website-pakistan.webp",
-  imageAlt: "Timbera.pk furniture store on desktop and mobile with the title: How to build a furniture ecommerce website in Pakistan",
+  imageAlt: "Timbera.pk furniture store home page in a browser window",
   excerpt:
     "Furniture is one of the hardest things to sell online: expensive, bulky and bought on trust. Here's how I'd plan a furniture store for Pakistani buyers, based on building Timbera.pk.",
   toc: [

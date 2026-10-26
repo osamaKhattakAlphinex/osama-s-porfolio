@@ -14,7 +14,7 @@ export const meta: PostMeta = {
   updated: "2026-10-20",
   services: ["mern-stack-development", "nextjs-development"],
   image: "/blog/hire-mern-stack-developer.webp",
-  imageAlt: "MongoDB, Express, React and Node.js logos with the title: How to hire a MERN stack developer",
+  imageAlt: "The MERN stack as four tiles: MongoDB, Express, React and Node.js",
   excerpt:
     "Most hiring mistakes with developers happen before the first interview: the wrong stack, the wrong kind of hire, a portfolio nobody checked. Here's the checklist I'd use, written from the developer's side of the table.",
   toc: [

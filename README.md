@@ -1,6 +1,6 @@
 # Osama Khattak, MERN stack developer portfolio
 
-Multi-page portfolio built with Next.js 16 (App Router), Tailwind CSS v4 and Geist. Every route is statically prerendered.
+Multi-page portfolio built with Next.js 16 (App Router), Tailwind CSS v4, Bricolage Grotesque, Instrument Sans and JetBrains Mono, with light and dark themes. Every route is statically prerendered.
 
 ## Run it
 

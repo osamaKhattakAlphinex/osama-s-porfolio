@@ -15,7 +15,7 @@ export const meta: PostMeta = {
   project: "staffvertex",
   services: ["mern-stack-development", "nextjs-development"],
   image: "/blog/build-time-tracking-app-like-hubstaff.webp",
-  imageAlt: "Staffvertex time tracking app home page with the title: How to build a time tracking app like Hubstaff",
+  imageAlt: "Staffvertex home page in a browser window: free to start, time tracking and project management for teams",
   excerpt:
     "A timer looks like the easy part. It isn't. Here's what building and maintaining Staffvertex taught me about the parts of a time tracker that people actually trust.",
   toc: [

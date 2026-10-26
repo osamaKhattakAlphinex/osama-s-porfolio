@@ -15,9 +15,9 @@ export function GET() {
 
 - [Home](${url("/")}): overview, selected work, services and experience
 - [About](${url("/about")}): background, skills, full experience and education
-- [Projects](${url("/projects")}): all client projects
+- [Work](${url("/projects")}): all projects, from the Staffvertex SaaS to client sites
 - [Services](${url("/services")}): everything offered, with process and FAQ
-- [Blog](${url("/blog")}): guides drawn from real client projects
+- [Writing](${url("/blog")}): guides drawn from real client projects
 - [Contact](${url("/contact")}): hire ${person.name}
 
 ## Services
