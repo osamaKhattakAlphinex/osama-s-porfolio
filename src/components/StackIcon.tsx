@@ -1,14 +1,17 @@
 import {
   siBootstrap,
   siExpress,
+  siFastapi,
   siFigma,
   siGit,
   siGithub,
   siJavascript,
   siLaravel,
   siMongodb,
+  siMysql,
   siNextdotjs,
   siNodedotjs,
+  siPython,
   siReact,
   siTailwindcss,
   siVercel,
@@ -35,6 +38,9 @@ const logos: Record<Tool, SimpleIcon> = {
   Git: siGit,
   GitHub: siGithub,
   Vercel: siVercel,
+  MySQL: siMysql,
+  Python: siPython,
+  FastAPI: siFastapi,
 };
 
 export function StackIcon({ tool, size = 16, className = "" }: { tool: Tool; size?: number; className?: string }) {

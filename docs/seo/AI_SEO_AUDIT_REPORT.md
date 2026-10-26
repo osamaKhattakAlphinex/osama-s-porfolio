@@ -952,12 +952,26 @@ Verified on a local production build with `NEXT_PUBLIC_SITE_URL` set to the live
 
 **Status updates from the owner:** Google Search Console is verified (the `google-site-verification` meta tag is live).
 
+**Deployed** as commit `48ea61f` (live about 40 s after the push). Live checks confirmed: new descriptions, the identity sentence, `robots.txt` without `Host`, Staffvertex `creator` = Alphinex with Osama as `contributor`, and 404 still returns 404. Lighthouse mobile on the live home page, two runs: performance 87 / 82, simulated LCP 2.8 s / 3.3 s (was 83 and 3.4 s in one run before). Observed FCP equals observed LCP in both runs (the gap was 550 ms before). The simulated score varies by about ±5 between runs, so treat the score change as within noise. The confirmed effect is that the LCP element now paints on first paint.
+
 ### 2026-10-26: external accounts
 
 | Finding | Change | Verification |
 | --- | --- | --- |
 | T-14 (Bing) | The site was already added and verified in Bing Webmaster Tools. All 26 sitemap URLs were submitted with URL Submission (quota 100/day). **Sitemap submission failed three times** with Bing's "An unexpected error occurred on the server side"; Bing's banner says new-site data can take up to 48 hours to process. `robots.txt` already advertises the sitemap. | The URL Submission list shows the URLs "Submitted today at 21:05". **Retry the sitemap in Bing → Sitemaps in a day or two.** |
 | X-01 / T-01 (GitHub) | Profile: name "Osama Khattak"; bio "Full-stack Next.js / MERN developer at Alphinex Solutions, building Staffvertex. Islamabad, Pakistan."; website = live URL; company "Alphinex Solutions"; location "Islamabad, Pakistan"; LinkedIn added as a social link. Repo: website changed from the dead `osama-s-porfolio.vercel.app` to the live URL, and a description added. Public email and pronouns were left unset. | `api.github.com/users/osamaKhattakAlphinex` returns the new name, bio, blog, company and location. `gh repo view` shows the new `homepageUrl` and description. |
+
+### 2026-10-26: content (G-01, G-04, E-02)
+
+- **NexIntern case study** (`/projects/nexintern`), the owner's solo final-year project. Every fact comes from the repo (`osamaKhattakAlphinex/FYP`) and the live site.
+  - **Stack:** Next.js + Express/Node.js + **MySQL** (Sequelize) + a FastAPI AI service. The case study states the stack honestly; it is not presented as MongoDB.
+  - **Migration story:** the switch from MongoDB to MySQL at the supervisor's request, confirmed by the 2026-05-11 "db changed" commit.
+  - **Proof note:** a `proofNote` on the MERN service page says the same thing.
+  - **Status:** Module 13 (document verification) is still pending per the repo, so the outcome says "twelve modules are complete".
+  - **Screenshots:** cropped to the "How it works" section, because the FYP landing page shows placeholder statistics, testimonials and a "Trusted by" strip naming real organisations.
+- **Timbera** gained a "How the build went" story (brief, approach, timeline, result) from the owner's answers.
+- **G-01 status:** partly addressed. Express, Node.js and React are now evidenced by a public repo. MongoDB is evidenced only historically.
+- **E-02:** FYP is pinned on GitHub, with a rewritten README, a description and topics.
 
 **Still to do by hand:** pin 3–4 representative repos with READMEs (your choice of which); align LinkedIn's headline and website link with the site.
 

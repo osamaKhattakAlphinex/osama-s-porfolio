@@ -70,12 +70,21 @@ function Facts({ items }: { items: [string, React.ReactNode][] }) {
 }
 
 function LiveLink({ p }: { p: Project }) {
-  return p.offline ? (
+  const live = p.offline ? (
     <span className="font-medium text-muted">No longer online</span>
   ) : (
     <a href={p.href} target="_blank" rel="noopener" className="text-accent-ink hover:underline">
       {host(p.href)} ↗
     </a>
+  );
+  if (!p.repo) return live;
+  return (
+    <span className="flex flex-col gap-0.5">
+      {live}
+      <a href={p.repo} target="_blank" rel="noopener" className="text-accent-ink hover:underline">
+        Source on GitHub ↗
+      </a>
+    </span>
   );
 }
 
@@ -239,13 +248,15 @@ function CaseStudy({ p, crumbs }: { p: Project; crumbs: Crumbs }) {
         </Container>
       </section>
 
+      {p.story && <Story story={p.story} />}
+
       <section aria-labelledby="features-title">
         <Container className="flex flex-col gap-7 py-10 md:py-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 id="features-title" className="heading text-[clamp(1.6rem,3vw,2.6rem)]">
               What the site offers
             </h2>
-            <p className="max-w-[22.5rem] text-sm text-muted">{p.offline ? "From the site while it was live." : "Taken from the live site, checked October 2026."}</p>
+            <p className="max-w-[22.5rem] text-sm text-muted">{p.featuresSource ?? (p.offline ? "From the site while it was live." : "Taken from the live site, checked October 2026.")}</p>
           </div>
           <ol className="grid grid-cols-1 gap-px overflow-hidden rounded-[18px] border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
             {p.features.map((f, i) => (
@@ -261,6 +272,34 @@ function CaseStudy({ p, crumbs }: { p: Project; crumbs: Crumbs }) {
       <Gallery p={p} />
       <Related p={p} />
     </>
+  );
+}
+
+/** Brief, approach, the hard part (when there is one), timeline and result, in Osama's words. */
+function Story({ story }: { story: NonNullable<Project["story"]> }) {
+  const parts: [string, string][] = [
+    ["The brief", story.brief],
+    ["My approach", story.approach],
+    ...(story.challenge ? [["The hard part", story.challenge] as [string, string]] : []),
+    ["Timeline", story.timeline],
+    ["The result", story.outcome],
+  ];
+  return (
+    <section aria-labelledby="story-title">
+      <Container className="flex flex-col gap-7 py-10 md:py-12">
+        <h2 id="story-title" className="heading text-[clamp(1.6rem,3vw,2.6rem)]">
+          How the build went
+        </h2>
+        <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-[18px] border border-rule bg-rule sm:grid-cols-2">
+          {parts.map(([k, v]) => (
+            <div key={k} className="flex flex-col gap-2 bg-surface p-6 md:p-7 sm:[&:last-child:nth-child(odd)]:col-span-2">
+              <dt className="eyebrow text-accent-ink">{k}</dt>
+              <dd className="text-ink-2">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </Container>
+    </section>
   );
 }
 

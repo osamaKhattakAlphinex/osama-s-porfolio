@@ -79,6 +79,9 @@ export const stack = [
   "Git",
   "GitHub",
   "Vercel",
+  "MySQL",
+  "Python",
+  "FastAPI",
 ] as const;
 export type Tool = (typeof stack)[number];
 
@@ -268,6 +271,12 @@ export type Project = {
   offline?: boolean;
   /** An Alphinex product rather than client work: structured data credits the employer as creator. */
   inHouse?: boolean;
+  /** Public source code, linked next to the live site. */
+  repo?: string;
+  /** Where the "What the site offers" list comes from, when it isn't just the live site. */
+  featuresSource?: string;
+  /** How the build went, from Osama's own account. Only confirmed facts; leave a part out rather than guess. */
+  story?: { brief: string; approach: string; challenge?: string; timeline: string; outcome: string };
 };
 
 const shots = (slug: string, name: string, what: { home: string; section: string; mobile: string }): Shot[] => [
@@ -311,6 +320,52 @@ export const projects: Project[] = [
     }),
   },
   {
+    slug: "nexintern",
+    name: "NexIntern",
+    href: "https://fyp-two-green.vercel.app",
+    repo: "https://github.com/osamaKhattakAlphinex/FYP",
+    image: "/work/nexintern/home.webp",
+    categories: ["Full stack"],
+    kind: "AI micro-internship platform",
+    role: "Solo build: web app, API and AI service",
+    roleNote: "My final-year project for the BS in Software Engineering at SZABIST Islamabad. I designed and built every part of it on my own.",
+    summary: "My final-year project: students matched to paid micro-internships, built with Next.js, an Express and Node.js API, and a Python AI service.",
+    about:
+      "NexIntern connects university students with short, paid micro-internships posted by companies. Students build a profile and get tasks ranked by how well they fit; companies post tasks, review ranked applicants, interview and evaluate them; mentors guide students through the work.",
+    featuresSource: "From the codebase and the live site, checked October 2026.",
+    features: [
+      "Four roles with their own dashboards: students, companies, mentors and admins.",
+      "Sign-up with email verification by one-time code, password reset and Google sign-in.",
+      "Task posting, applications, interviews and mentor assignment, end to end.",
+      "A 0-100 match score for every student and task, with the reasons shown alongside it. Skills carry 55% of the weight.",
+      "Progress tracking with milestones, time logs and early warnings when a task is slipping.",
+      "Rubric-based evaluations that anyone can verify with a public code, plus structured feedback and analytics.",
+      "Payments through Stripe Checkout, with a sandbox mode for testing and a platform fee.",
+    ],
+    work: [
+      "Built the Next.js front end: 50 pages across the four role dashboards.",
+      "Built the Express and Node.js REST API: 14 route groups and 38 data models, with JWT auth, role-based access, rate limiting and file uploads.",
+      "Built the Python FastAPI service behind the AI features: matching, progress risk, evaluation, feedback drafting and performance insights.",
+      "Wrote 15 test files (Jest and pytest), Dockerfiles for each service, and deployed it: front end on Vercel, API on Render.",
+    ],
+    story: {
+      brief:
+        "My final-year project: a platform where companies post short, paid tasks, students get matched to the ones that fit their skills, and the work ends in an evaluation and feedback that anyone can verify.",
+      approach:
+        "Three services: a Next.js front end, an Express and Node.js API that owns the data and business rules, and a Python FastAPI service for the AI scoring (TF-IDF text similarity, with optional sentence-transformer embeddings). Every AI score is a short, named formula that comes with written reasons, and the API falls back to its own rules if the AI service is unreachable.",
+      challenge:
+        "Six weeks into the build, my supervisor asked for the database to move from MongoDB to MySQL. I rewrote the data layer from Mongoose to Sequelize, split nested data such as student skills, education and task attachments into their own tables, and reworked the controllers on top of it.",
+      timeline: "Built between March and October 2026, alongside my full-time job.",
+      outcome: "Twelve modules are complete, from sign-up and AI matching to evaluations and payments, and the platform is live.",
+    },
+    services: ["mern-stack-development", "nextjs-development"],
+    stack: ["Next.js", "React", "Node.js", "Express", "MySQL", "Python", "FastAPI", "Tailwind CSS"],
+    gallery: [
+      { src: "/work/nexintern/home.webp", alt: "NexIntern landing page on desktop: how it works, in four steps", caption: "How it works: profile, AI match, mentored task, verified credential.", width: 1440, height: 900 },
+      { src: "/work/nexintern/mobile.webp", alt: "NexIntern how-it-works section on a phone", caption: "The same steps on a phone.", width: 780, height: 1688 },
+    ],
+  },
+  {
     slug: "timbera",
     name: "Timbera.pk",
     href: "https://timbera.pk",
@@ -329,6 +384,13 @@ export const projects: Project[] = [
       "Delivery and money-back promises shown on every page.",
     ],
     work: ["Built the WordPress ecommerce store and its product catalogue.", "Designed and built a custom, responsive storefront."],
+    story: {
+      brief: "Timbera needed a website to show off its furniture and sell it online, with the products front and centre. They wanted it up quickly.",
+      approach:
+        "Speed mattered most, so I built it on WordPress, with WooCommerce for the catalogue and checkout. Choosing the right theme up front kept the build fast and let me spend the time on Timbera's products and pages.",
+      timeline: "About a week from start to finish.",
+      outcome: "The client was happy with it, especially the look and feel, how well it works on phones and how smoothly the site runs.",
+    },
     services: ["wordpress-development"],
     stack: ["WordPress", "WooCommerce"],
     gallery: shots("timbera", "Timbera.pk", {
@@ -546,6 +608,7 @@ export const services: Service[] = [
     core: true,
     highlights: ["APIs with Express and Node.js", "MongoDB data modeling", "Accounts and roles"],
     cta: "Planning a web app on the MERN stack?",
+    proofNote: "NexIntern runs its Express and Node.js API on MySQL: it started on MongoDB, and moved at my supervisor's request.",
     name: "MERN stack development",
     heading: "MERN stack development services",
     metaTitle: "MERN Stack Development Services",
@@ -758,6 +821,7 @@ export const formEndpoint = "https://formspree.io/f/xpwrjvey";
 
 /** One line per project for the home page's project index ("What I did"). */
 export const projectOneLiners: Record<string, string> = {
+  nexintern: "Solo full-stack build with a Python AI service",
   teey: "Front end structured around service bookings",
   executivesdiary: "Custom front end built for long-form reading",
   consultantsperhour: "Responsive browse and booking interface",
